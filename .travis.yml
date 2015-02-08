@@ -1,0 +1,12 @@
+language: c
+env:
+
+os:
+  - linux
+
+compiler:
+  - gcc
+  - clang
+
+script:
+  - make
