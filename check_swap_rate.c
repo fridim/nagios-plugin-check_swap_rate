@@ -21,7 +21,7 @@ enum {
 	STATE_UNKNOWN,
 };
 
-void get_values(time_t * s, ulli * swpin, ulli * swpout)
+void get_values(time_t * const s, ulli * const swpin, ulli * const swpout)
 {
 	FILE *f;
 	char line[BUFSIZ];
@@ -55,7 +55,7 @@ void get_values(time_t * s, ulli * swpin, ulli * swpout)
 	}
 }
 
-void write_values(time_t s, ulli swpin, ulli swpout)
+void write_values(const time_t s, const ulli swpin, const ulli swpout)
 {
 	FILE *f;
 
@@ -69,7 +69,7 @@ void write_values(time_t s, ulli swpin, ulli swpout)
 	fclose(f);
 }
 
-void get_last_values(time_t * s, ulli * swpin, ulli * swpout)
+void get_last_values(time_t * const s, ulli * const swpin, ulli * const swpout)
 {
 	FILE *f;
 	f = fopen(fname, "r");
