@@ -1,5 +1,7 @@
 # Nagios plugin check_swap_rate
 
+[![Build Status](https://travis-ci.org/fridim/nagios-plugin-check_swap_rate.svg?branch=master)](https://travis-ci.org/fridim/nagios-plugin-check_swap_rate)
+
 This check is inspired by this [article](http://word.bitly.com/post/74839060954/ten-things-to-monitor).
 
 > It’s common to check for swap usage above a threshold, but even if you have a small quantity of memory swapped, it’s actually the rate it’s swapped in/out that can impact performance, not the quantity. This is a much more direct check for that state.
