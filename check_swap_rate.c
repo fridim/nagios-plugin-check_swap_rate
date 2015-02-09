@@ -117,23 +117,15 @@ int main(int argc, char *argv[])
 	while (c = getopt(argc, argv, "c:w:t:h"), c != -1) {
 		switch (c) {
 		case 'c':
-			if (sscanf(optarg, "%d", &critical) != 1) {
-				fprintf(stderr,
-					"ERROR while parsing critical value");
-				return STATE_UNKNOWN;
-			}
+			critical = atoi(optarg);
 			break;
 		case 'w':
-			if (sscanf(optarg, "%d", &warning) != 1) {
-				fprintf(stderr,
-					"ERROR while parsing warning value");
-				return STATE_UNKNOWN;
-			}
+			warning = atoi(optarg);
 			break;
 		case 't':
-			if (sscanf(optarg, "%d", &t) != 1) {
-				fprintf(stderr,
-					"ERROR while parsing interval value");
+			t = atoi(optarg);
+			if (t == 0) {
+				fprintf(stderr, "INTERVAL can't be 0.\n");
 				return STATE_UNKNOWN;
 			}
 			break;
@@ -141,7 +133,7 @@ int main(int argc, char *argv[])
 			usage(argv);
 			return STATE_UNKNOWN;
 		default:
-			fprintf(stderr, "Try '%s -h' for more information.",
+			fprintf(stderr, "Try '%s -h' for more information.\n",
 				argv[0]);
 			return STATE_UNKNOWN;
 		}
