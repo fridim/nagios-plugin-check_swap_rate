@@ -79,7 +79,7 @@ void get_last_values(time_t * s, ulli * swpin, ulli * swpout)
 	}
 
 	if (fscanf(f, "%ld %llu %llu", s, swpin, swpout) != 3) {
-		fprintf(stderr, "ERROR while parsing old values");
+		fprintf(stderr, "ERROR while parsing old values\n");
 		exit(STATE_UNKNOWN);
 	}
 	fclose(f);
