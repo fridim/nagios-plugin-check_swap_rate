@@ -167,6 +167,7 @@ int main(int argc, char *argv[])
 			    ("UNKNOWN: run twice in the same sec, can't compute rate.\n");
 			return STATE_UNKNOWN;
 		}
+		write_values(s, swpin, swpout);
 
 		ratio_in = (swpin - swpin_old) / (float)elapsed_t;
 		ratio_out = (swpout - swpout_old) / (float)elapsed_t;
@@ -188,9 +189,9 @@ int main(int argc, char *argv[])
 		}
 	} else {
 		printf("OK: first run.\n");
+		write_values(s, swpin, swpout);
+		return STATE_OK;
 	}
 
-	write_values(s, swpin, swpout);
-
-	return STATE_OK;
+	return STATE_UNKNOWN;
 }
