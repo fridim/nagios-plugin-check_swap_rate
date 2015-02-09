@@ -144,44 +144,42 @@ int main(int argc, char *argv[])
 
 	get_values(&s, &swpin, &swpout);
 
-	if (access(fname, F_OK) != -1) {
-		unsigned int elapsed_t = 0;
-		float ratio_in = 0, ratio_out = 0;
-		float c_ratio = critical / (float)t;
-		float w_ratio = warning / (float)t;
-
-		get_last_values(&s_old, &swpin_old, &swpout_old);
-
-		elapsed_t = s - s_old;
-
-		if (elapsed_t == 0) {
-			printf
-			    ("UNKNOWN: run twice in the same sec, can't compute rate.\n");
-			return STATE_UNKNOWN;
-		}
-		write_values(s, swpin, swpout);
-
-		ratio_in = (swpin - swpin_old) / (float)elapsed_t;
-		ratio_out = (swpout - swpout_old) / (float)elapsed_t;
-
-		if (ratio_in >= c_ratio || ratio_out >= c_ratio) {
-			printf
-			    ("CRITICAL: %f pages/s swapin | %f pages/s swapout\n",
-			     ratio_in, ratio_out);
-			return STATE_CRITICAL;
-		} else if (ratio_in >= w_ratio || ratio_out >= w_ratio) {
-			printf
-			    ("WARNING: %f pages/s swapin | %f pages/s swapout\n",
-			     ratio_in, ratio_out);
-			return STATE_WARNING;
-		} else {
-			printf("OK: %f pages/s swapin | %f pages/s swapout\n",
-			       ratio_in, ratio_out);
-			return STATE_OK;
-		}
-	} else {
+	if (access(fname, F_OK) == -1) {
 		printf("OK: first run.\n");
 		write_values(s, swpin, swpout);
+		return STATE_OK;
+	}
+
+	unsigned int elapsed_t = 0;
+	float ratio_in = 0, ratio_out = 0;
+	float c_ratio = critical / (float)t;
+	float w_ratio = warning / (float)t;
+
+	get_last_values(&s_old, &swpin_old, &swpout_old);
+
+	elapsed_t = s - s_old;
+
+	if (elapsed_t == 0) {
+		printf
+		    ("UNKNOWN: run twice in the same sec, can't compute rate.\n");
+		return STATE_UNKNOWN;
+	}
+	write_values(s, swpin, swpout);
+
+	ratio_in = (swpin - swpin_old) / (float)elapsed_t;
+	ratio_out = (swpout - swpout_old) / (float)elapsed_t;
+
+	if (ratio_in >= c_ratio || ratio_out >= c_ratio) {
+		printf("CRITICAL: %f pages/s swapin | %f pages/s swapout\n",
+		       ratio_in, ratio_out);
+		return STATE_CRITICAL;
+	} else if (ratio_in >= w_ratio || ratio_out >= w_ratio) {
+		printf("WARNING: %f pages/s swapin | %f pages/s swapout\n",
+		       ratio_in, ratio_out);
+		return STATE_WARNING;
+	} else {
+		printf("OK: %f pages/s swapin | %f pages/s swapout\n", ratio_in,
+		       ratio_out);
 		return STATE_OK;
 	}
 
