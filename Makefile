@@ -6,4 +6,4 @@ LDLIBS=
 $(P): $(OBJECTS)
 
 indent:
-	indent -linux *.c
+	indent -linux *.c -l110

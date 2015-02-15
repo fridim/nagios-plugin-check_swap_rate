@@ -89,27 +89,17 @@ void get_last_values(time_t * const s, ulli * const swpin, ulli * const swpout)
 
 void usage(char *argv[])
 {
-	printf
-	    ("Usage: %s [-i INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h] [-V]\n",
-	     argv[0]);
+	printf("Usage: %s [-i INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h] [-V]\n", argv[0]);
 	printf("\n");
 	printf("-i INTERVAL\tinterval in seconds (default %d)\n", INTERVAL);
-	printf
-	    ("-c C_THRESHOLD\tnumber of pages for critical threshold (default %d)\n",
-	     CRITICAL_DEFAULT);
-	printf
-	    ("-w W_THRESHOLD\tnumber of pages for warning threshold (default %d)\n",
-	     WARNING_DEFAULT);
+	printf("-c C_THRESHOLD\tnumber of pages for critical threshold (default %d)\n", CRITICAL_DEFAULT);
+	printf("-w W_THRESHOLD\tnumber of pages for warning threshold (default %d)\n", WARNING_DEFAULT);
 	printf("-h \t\tthis help\n");
 	printf("-V \t\tversion\n");
 	printf("\n");
 	printf("\nExamples: \n");
-	printf
-	    ("\t%s -i 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s\n",
-	     argv[0]);
-	printf
-	    ("\t%s -i 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s\n",
-	     argv[0]);
+	printf("\t%s -i 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s\n", argv[0]);
+	printf("\t%s -i 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s\n", argv[0]);
 }
 
 int main(int argc, char *argv[])
@@ -141,8 +131,7 @@ int main(int argc, char *argv[])
 			usage(argv);
 			return STATE_UNKNOWN;
 		default:
-			fprintf(stderr, "Try '%s -h' for more information.\n",
-				argv[0]);
+			fprintf(stderr, "Try '%s -h' for more information.\n", argv[0]);
 			return STATE_UNKNOWN;
 		}
 	}
@@ -168,8 +157,7 @@ int main(int argc, char *argv[])
 	elapsed_t = s - s_old;
 
 	if (elapsed_t == 0) {
-		printf
-		    ("UNKNOWN: run twice in the same sec, can't compute rate.\n");
+		printf("UNKNOWN: run twice in the same sec, can't compute rate.\n");
 		return STATE_UNKNOWN;
 	}
 
@@ -179,16 +167,13 @@ int main(int argc, char *argv[])
 	ratio_out = (swpout - swpout_old) / (float)elapsed_t;
 
 	if (ratio_in >= c_ratio || ratio_out >= c_ratio) {
-		printf("CRITICAL: %f pages/s swapin | %f pages/s swapout\n",
-		       ratio_in, ratio_out);
+		printf("CRITICAL: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
 		return STATE_CRITICAL;
 	} else if (ratio_in >= w_ratio || ratio_out >= w_ratio) {
-		printf("WARNING: %f pages/s swapin | %f pages/s swapout\n",
-		       ratio_in, ratio_out);
+		printf("WARNING: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
 		return STATE_WARNING;
 	} else {
-		printf("OK: %f pages/s swapin | %f pages/s swapout\n", ratio_in,
-		       ratio_out);
+		printf("OK: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
 		return STATE_OK;
 	}
 
