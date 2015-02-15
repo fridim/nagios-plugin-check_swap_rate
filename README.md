@@ -8,6 +8,8 @@ This check is inspired by this [article](http://word.bitly.com/post/74839060954/
 
 A check should be instant. In order to avoid waiting several seconds for <code>vmstat</code> to compute the deritative of pswpin/pswpout, this check stores the current state in a file. The result is instant (no hang).
 
+This check comes with performance data (used to generate a graph from a check).
+
 ## Build
 
     make

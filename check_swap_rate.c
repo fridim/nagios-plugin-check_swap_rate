@@ -102,6 +102,12 @@ void usage(char *argv[])
 	printf("\t%s -i 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s\n", argv[0]);
 }
 
+void output(const char *const status, const float rin, const float rout, const float w, const float c)
+{
+	printf("%s: pages/s %.2f IN, %.2f OUT", status, rin, rout);
+	printf(" | swapin=%f;%f;%f; swapout=%f;%f;%f;\n", rin, w, c, rout, w, c);
+}
+
 int main(int argc, char *argv[])
 {
 	int c;
@@ -167,13 +173,13 @@ int main(int argc, char *argv[])
 	ratio_out = (swpout - swpout_old) / (float)elapsed_t;
 
 	if (ratio_in >= c_ratio || ratio_out >= c_ratio) {
-		printf("CRITICAL: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
+		output("CRITICAL", ratio_in, ratio_out, w_ratio, c_ratio);
 		return STATE_CRITICAL;
 	} else if (ratio_in >= w_ratio || ratio_out >= w_ratio) {
-		printf("WARNING: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
+		output("WARNING", ratio_in, ratio_out, w_ratio, c_ratio);
 		return STATE_WARNING;
 	} else {
-		printf("OK: %f pages/s swapin | %f pages/s swapout\n", ratio_in, ratio_out);
+		output("OK", ratio_in, ratio_out, w_ratio, c_ratio);
 		return STATE_OK;
 	}
 
