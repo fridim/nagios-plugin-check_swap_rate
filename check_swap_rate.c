@@ -9,6 +9,8 @@
 typedef unsigned long long int ulli;
 const char *fname = "/tmp/check_swap_rate.TIYUl6P61oMR9GSMhz.data";
 
+#define VERSION "1.0"
+
 /* default values */
 #define CRITICAL_DEFAULT 60
 #define WARNING_DEFAULT 30
@@ -88,23 +90,25 @@ void get_last_values(time_t * const s, ulli * const swpin, ulli * const swpout)
 void usage(char *argv[])
 {
 	printf
-	    ("Usage: %s [-t INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h]\n",
+	    ("Usage: %s [-i INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h] [-V]\n",
 	     argv[0]);
 	printf("\n");
-	printf("-t INTERVAL\tinterval in seconds (default %d)\n", INTERVAL);
+	printf("-i INTERVAL\tinterval in seconds (default %d)\n", INTERVAL);
 	printf
 	    ("-c C_THRESHOLD\tnumber of pages for critical threshold (default %d)\n",
 	     CRITICAL_DEFAULT);
 	printf
 	    ("-w W_THRESHOLD\tnumber of pages for warning threshold (default %d)\n",
 	     WARNING_DEFAULT);
+	printf("-h \t\tthis help\n");
+	printf("-V \t\tversion\n");
 	printf("\n");
 	printf("\nExamples: \n");
 	printf
-	    ("\t%s -t 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s\n",
+	    ("\t%s -i 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s\n",
 	     argv[0]);
 	printf
-	    ("\t%s -t 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s\n",
+	    ("\t%s -i 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s\n",
 	     argv[0]);
 }
 
@@ -114,7 +118,7 @@ int main(int argc, char *argv[])
 	int warning = WARNING_DEFAULT, critical = CRITICAL_DEFAULT;
 	int t = INTERVAL;
 
-	while (c = getopt(argc, argv, "c:w:t:h"), c != -1) {
+	while (c = getopt(argc, argv, "c:w:i:hV"), c != -1) {
 		switch (c) {
 		case 'c':
 			critical = atoi(optarg);
@@ -122,7 +126,11 @@ int main(int argc, char *argv[])
 		case 'w':
 			warning = atoi(optarg);
 			break;
-		case 't':
+		case 'V':
+			printf("%s version %s\n", argv[0], VERSION);
+			return STATE_OK;
+			break;
+		case 'i':
 			t = atoi(optarg);
 			if (t == 0) {
 				fprintf(stderr, "INTERVAL can't be 0.\n");
@@ -164,6 +172,7 @@ int main(int argc, char *argv[])
 		    ("UNKNOWN: run twice in the same sec, can't compute rate.\n");
 		return STATE_UNKNOWN;
 	}
+
 	write_values(s, swpin, swpout);
 
 	ratio_in = (swpin - swpin_old) / (float)elapsed_t;

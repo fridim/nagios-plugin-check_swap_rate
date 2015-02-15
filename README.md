@@ -16,17 +16,18 @@ For now, it's only built/tested on Linux.
 
 ## Usage
 
-
 	$ ./check_swap_rate -h
-	Usage: ./check_swap_rate [-t INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h]
+	Usage: ./check_swap_rate [-i INTERVAL] [-w W_THRESHOLD] [-c C_THRESHOLD] [-h] [-V]
 
-	-t INTERVAL     interval in seconds (default 60)
+	-i INTERVAL     interval in seconds (default 60)
 	-c C_THRESHOLD  number of pages for critical threshold (default 60)
 	-w W_THRESHOLD  number of pages for warning threshold (default 30)
+	-h              this help
+	-V              version
 
 
 	Examples:
-    ./check_swap_rate -t 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s
-    ./check_swap_rate -t 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s
+    ./check_swap_rate -i 2 -c 2 -w 1          # critical: 1 page/s  warning: 0.5 page/s
+    ./check_swap_rate -i 600 -c 1200 -w 300   # critical: 2 page/s  warning: 0.5 page/s
 
 Note: INTERVAL is only a mean to provide the rate, which in the end is a number of pages per sec.
