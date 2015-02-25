@@ -1,10 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-#include <getopt.h>
+#include <getopt.h>                     // for optarg, getopt
+#include <stdio.h>                      // for printf, fprintf, stderr, etc
+#include <stdlib.h>                     // for exit, atoi
+#include <time.h>                       // for time_t, time
+#include <unistd.h>                     // for access, F_OK
 
 typedef unsigned long long int ulli;
 const char *fname = "/tmp/check_swap_rate.TIYUl6P61oMR9GSMhz.data";
